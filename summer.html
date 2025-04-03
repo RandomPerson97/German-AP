@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German AP</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: grid;
+            max-width: 1000px;
+            max-height: 1440px;
+            grid-template-areas: 
+            "title title"
+            "closet closet"
+            "drop-zone drop-zone";
+            margin: auto;
+            row-gap: 10px;
+            column-gap: 10px;
+            background-color: #228B22;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .title{
+            grid-area: title;
+            padding-bottom: 5px;
+        }
+        .title h1, .title h2{
+            margin: 5px 0;
+        }
+        .closet {
+            grid-area: closet;
+            display: block;
+            position: relative;
+            width: 500px;
+            height: 100px;
+            background-color: #228B22;
+            border-radius: 10px;
+        }
+        .closet img {
+            cursor: grab;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .character-container {
+            position: relative;
+            width: 200px;
+            height: 400px;
+        }
+        .drop-zone {
+            grid-area: drop-zone;
+            position: absolute;
+            width: 200px;
+            height: 400px;
+        }
+        .character img {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <p>
+                <a style="text-decoration: none;" href="index.html"><h1>Sommer</h1></a>
+                <h2>Hilf Samuel die Kleidung anziehen!</h2>
+            </p>
+                <br>
+                <audio preload="auto" src="song.mp3" controls loop="true" autobuffer></audio> 
+                <script>
+                    function setCookie(c_name,value,exdays)
+                    {
+                        var exdate=new Date();
+                        exdate.setDate(exdate.getDate() + exdays);
+                        var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+                        document.cookie=c_name + "=" + c_value;
+                    }
+                    function getCookie(c_name)
+                    {
+                        var i,x,y,ARRcookies=document.cookie.split(";");
+                        for (i=0;i<ARRcookies.length;i++)
+                        {
+                          x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+                          y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+                          x=x.replace(/^\s+|\s+$/g,"");
+                          if (x==c_name)
+                            {
+                            return unescape(y);
+                            }
+                          }
+                    }
+                    var song = document.getElementsByTagName('audio')[0];
+                    var played = false;
+                    var tillPlayed = getCookie('timePlayed');
+                    function update()
+                    {
+                        if(!played){
+                            if(tillPlayed){
+                            song.currentTime = tillPlayed;
+                            song.play();
+                            played = true;
+                            }
+                            else {
+                                    song.play();
+                                    played = true;
+                            }
+                        }
+                    
+                        else {
+                        setCookie('timePlayed', song.currentTime);
+                        }
+                    }
+                    setInterval(update,1000);
+                </script>
+            </p>
+        </div>
+        <div class="closet">
+            <img id="glasses" src="sunglasses.png" draggable="true" ondragstart="dragStart(event)" width="100" height="30">
+            <img id="cap" src="cap.png" draggable="true" ondragstart="dragStart(event)" width="120" height="80">
+            <img id="shirt" src="tshirts.png" draggable="true" ondragstart="dragStart(event)" width="180" height="140">
+            <img id="tshirt" src="singlet.png" draggable="true" ondragstart="dragStart(event)" width="110" height="130">
+            <img id="pants" src="shorts.png" draggable="true" ondragstart="dragStart(event)" width="170" height="130">
+            <img id="leftshoe" src="leftsandal.png" draggable="true" ondragstart="dragStart(event)" width="100" height="50">
+            <img id="rightshoe" src="rightsandal.png" draggable="true" ondragstart="dragStart(event)" width="100" height="50">
+        </div>
+        <div class="character-container">
+            <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <img src="man.png" width="200" height="400">
+            </div>
+        </div>
+        <div class="text">
+            <p>
+                Samuel hat ein T-Shirt, ein Unterhemd, eine Kappe, eine Shorts, Sandalen und Sonnenbrille.
+                <br>
+                Ah! Es ist so <b>heiß</b>!
+                <br>
+                <br>
+                <b>Zuerst möchte er die Sandalen anziehen.</b>
+                <br>
+                <b>Dann will er die Shorts anziehen.</b>
+                <br>
+                <b>Und dann zieht er das T-Shirt an.</b>
+                <br>
+                <b>Endlich will er die Sonnenbrille aufsetzen.</b>
+            </p>
+        </div>
+    </div>
+    <script>
+        let closetItemCount = 0;
+
+        document.addEventListener("DOMContentLoaded", function () {
+        let closetItems = document.querySelectorAll(".closet img");
+
+        closetItems.forEach((img, index) => {
+        img.style.position = "absolute";
+        img.style.left = `${index * 40}px`;
+        img.style.top = `${index * 10}px`;
+        });
+    });
+
+    function dragStart(event) {
+    event.dataTransfer.setData("text", event.target.id);
+    }
+
+    function allowDrop(event) {
+    event.preventDefault();
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        let data = event.dataTransfer.getData("text");
+        let clothingItem = document.getElementById(data);
+        let dropZone = event.target.closest(".drop-zone");
+        let closet = document.querySelector(".closet");
+
+    if (dropZone) {
+        let dropZoneRect = dropZone.getBoundingClientRect();
+        clothingItem.style.position = "absolute";
+        clothingItem.style.left = event.clientX - dropZoneRect.left - clothingItem.width / 2 + "px";
+        clothingItem.style.top = event.clientY - dropZoneRect.top - clothingItem.height / 2 + "px";
+        dropZone.appendChild(clothingItem);
+    } else if (closet.contains(event.target) || event.target === closet) {
+        clothingItem.style.position = "absolute";
+        clothingItem.style.left = `${closetItemCount * 40}px`;
+        clothingItem.style.top = `${closetItemCount * 10}px`;
+        closet.appendChild(clothingItem);
+
+        closetItemCount = (closetItemCount + 1) % 10;
+    }
+    }
+    </script>
+</body>
+</html>

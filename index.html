@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German AP</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: grid;
+            max-width: 1000px;
+            max-height: 1440px;
+            grid-template-areas: 
+            "title title"
+            "spring summer"
+            "winter fall";
+            margin: auto;
+            row-gap: 10px;
+            column-gap: 10px;
+            background-color: lightgrey;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .title{
+            grid-area: title;
+            padding-bottom: 5px;
+        }
+        .title h1, .title h2{
+            margin: 5px 0;
+        }
+        .season{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            height: 350px;
+            margin: 1%;
+        }
+        .spring{
+            grid-area: spring;
+            background-color: pink;
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .summer{
+            grid-area: summer;
+            background-color: #228B22;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .fall{
+            grid-area: fall;
+            background-color: #9D513A;
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .winter {
+            grid-area: winter;
+            background-color: #003366;
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <p>
+                <a style="text-decoration: none;" href="index.html"><h1>Kleidung und Wetter</h1></a>
+                <h2>Please click which season to wear!</h2>
+            </p>
+                <br>
+                <audio preload="auto" src="song.mp3" controls loop="true" autobuffer></audio> 
+                <script>
+                    function setCookie(c_name,value,exdays)
+                    {
+                        var exdate=new Date();
+                        exdate.setDate(exdate.getDate() + exdays);
+                        var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+                        document.cookie=c_name + "=" + c_value;
+                    }
+                    function getCookie(c_name)
+                    {
+                        var i,x,y,ARRcookies=document.cookie.split(";");
+                        for (i=0;i<ARRcookies.length;i++)
+                        {
+                          x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+                          y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+                          x=x.replace(/^\s+|\s+$/g,"");
+                          if (x==c_name)
+                            {
+                            return unescape(y);
+                            }
+                          }
+                    }
+                    var song = document.getElementsByTagName('audio')[0];
+                    var played = false;
+                    var tillPlayed = getCookie('timePlayed');
+                    function update()
+                    {
+                        if(!played){
+                            if(tillPlayed){
+                            song.currentTime = tillPlayed;
+                            song.play();
+                            played = true;
+                            }
+                            else {
+                                    song.play();
+                                    played = true;
+                            }
+                        }
+                    
+                        else {
+                        setCookie('timePlayed', song.currentTime);
+                        }
+                    }
+                    setInterval(update,1000);
+                </script>
+            </p>
+        </div>
+        <div class="season spring">
+            <a href="spring.html"><img src="spring.png" class="spring" height="310px" width="350px"></a>
+            <h3 class="textspring">Frühling (März, April, Mai)</h3>
+        </div>
+        <div class="season summer">
+            <a href="summer.html"><img src="summer.png" class="summer" height="270px" width="330px"></a>
+            <h3 class="textsummer">Sommer (Juni, Juli, August)</h3>
+        </div>
+        <div class="season fall">
+            <a href="fall.html"><img src="fall.png" class="fall" height="270px" width="320px"></a>
+            <h3 class="textfall">Herbst (September, Oktober, November)</h3>
+        </div>
+        <div class="season winter">
+            <a href="winter.html"><img src="winter.png" class="winter" height="260px" width="300px"></a>
+            <h3 class="textwinter">Winter (Dezember, Januar, Februar)</h3>
+        </div>
+    </div>
+</body>
+</html>
